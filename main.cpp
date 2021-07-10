@@ -12,29 +12,32 @@
 
 #include "ServiceTcp.h"
 
-#ifndef THREAD_POOL_MAX
-#define THREAD_POOL_MAX 100
-#endif
+
+
+
 
 int main(int argc, char *argv[])
 {
+    qSetMessagePattern("[%{time yyyyMMdd h:mm:ss.zzz t} %{if-debug}DEBUG%{endif}%{if-info}INFOS%{endif}%{if-warning}WARNS%{endif}%{if-critical}CRITS%{endif}%{if-fatal}FATAL%{endif}] %{file}:%{line} - %{message}");
+
     QCoreApplication app(argc, argv);
     QCoreApplication::setOrganizationName("SogonSecurity");
     QCoreApplication::setOrganizationDomain("sogonsecurity.com");
     QCoreApplication::setApplicationName("ViolentFungus");
-    QCoreApplication::setApplicationVersion("0.1");
-    qSetMessagePattern("[%{time yyyyMMdd h:mm:ss.zzz t} %{if-debug}D%{endif}%{if-info}I%{endif}%{if-warning}W%{endif}%{if-critical}C%{endif}%{if-fatal}F%{endif}] %{file}:%{line} - %{message}");
+    QCoreApplication::setApplicationVersion("v0.1-development");
     QTextStream out(stdout);
+    out << QCoreApplication::applicationName() << " " << QCoreApplication::applicationVersion()
+        << " SPORE GEN STARTING." << Qt::endl << Qt::endl;
 
     // Parse configuration file
     QString settingsFile = QCoreApplication::applicationDirPath() + QDir::separator() + "violentfungus.ini";
-    qDebug() << "settingsFile: " << settingsFile;
+    qDebug() << "settingsFile:" << settingsFile;
     QSettings settings(settingsFile, QSettings::IniFormat);
 
 
     // CLI argument provisioning
     QCommandLineParser parser;
-    parser.setApplicationDescription("ViolentFungus C2 - A PoC learning project by Chris Humphries (@sogonsec)");
+    parser.setApplicationDescription(QCoreApplication::applicationName() + " " + QCoreApplication::applicationVersion() + " C2 - A PoC learning project by Chris Humphries (@sogonsec)");
     parser.addHelpOption();
     parser.addVersionOption();
     QCommandLineOption serviceTcpOption("service-tcp", QCoreApplication::translate("main", "Enable raw TCP service."));
@@ -47,9 +50,11 @@ int main(int argc, char *argv[])
 
 
     // Set the global thread pool count
+    qDebug() << "THREAD_POOL_MAX" << THREAD_POOL_MAX;
     QThreadPool::globalInstance()->setMaxThreadCount(THREAD_POOL_MAX);
 
     // Start services
+    bool servicesStarted = false;
     ServiceTcp serviceTcp;
     if (parser.isSet(serviceTcpOption) || settings.value("service/tcp").toBool()) {
         if (parser.isSet(serviceTcpOption)) {
@@ -63,26 +68,31 @@ int main(int argc, char *argv[])
         quint16 port = settings.value("tcp/port").toInt();
         if (parser.isSet(serviceTcpPortOption)) {
             port = parser.value(serviceTcpPortOption).toInt();
-            qDebug() << "Using port number from command line argument (--service-tcp-port).";
-            if (port < 1 || port > 65535) {
-                qFatal("--service-tcp-port provided and it should be a number between 1 and 65535.");
-            }
-        } else if (port > 0 && port <= 65535) {
-            qDebug() << "Using port number from the configuration file (tcp/port).";
         }
-
+        if (port < 1 || port > 65535) {
+            qFatal("The raw TCP port number should be between 1 and 65535.");
+        }
         serviceTcp.startService(port);
         if (serviceTcp.isListening()) {
-            out << "[+] Service: raw TCP service is listening on port " << port << "." << Qt::endl;
+            qInfo() << "[+] Service: raw TCP service is listening on port " << port << "." << Qt::endl;
+            servicesStarted = true;
         }
         else {
-            out << "[!] Service: raw TCP service is NOT listening on port " << port << "." << Qt::endl;
+            qWarning() << "[!] Service: raw TCP service is NOT listening on port " << port << "." << Qt::endl;
 
         }
     }
 
+    if (servicesStarted == false) {
+        out << "No services are started! You need to start a service for this software to be useful." << Qt::endl;
+        exit(EXIT_FAILURE);
+    }
 
+    // Application started withqInfo() error if reached here
+    out << QCoreApplication::applicationName() << " "
+        << QCoreApplication::applicationVersion()
+        << " SPORE GEN ACTIVE. HAVE FUN!" << Qt::endl;
 
-    qDebug() << "Entering main loop!";
+    // Main loop
     return app.exec();
 }
