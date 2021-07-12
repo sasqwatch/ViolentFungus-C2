@@ -1,24 +1,21 @@
 #include "ServiceTcpProcessorTask.h"
-#include <QDebug>
 
 
 ServiceTcpProcessorTask::ServiceTcpProcessorTask()
 {
-    qDebug() << "ServiceTcpProcessorTask()";
 }
 
-void ServiceTcpProcessorTask::setSocketData(QByteArray socketData) {
-    this->socketData = socketData;
+void ServiceTcpProcessorTask::setRequestData(QByteArray requestData) {
+    this->requestData = requestData;
 }
 
 void ServiceTcpProcessorTask::run()
 {
-    qDebug() << "ServiceTcpProcessorTask::run() started";
+    // Process the data
+    QByteArray responseData;
+    DataRequestProcessor dataRequestProcessor;
 
-    qDebug() << "socketData = " << this->socketData;
+    responseData = dataRequestProcessor.processRequest(this->requestData);
 
-    qDebug() << "ServiceTcpProcessorTask::run() ended";
-
-    qDebug() << "emit socketDataProcessed(this->socketData) now";
-    emit socketDataProcessed(this->socketData);
+    emit socketDataProcessed(responseData);
 }

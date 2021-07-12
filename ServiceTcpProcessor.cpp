@@ -11,7 +11,7 @@ void ServiceTcpProcessor::setSocket(int sock)
     // make a new socket
     socket = new QTcpSocket(this);
 
-    qDebug() << "A new socket created!";
+    qDebug() << "A new socket created";
 
     connect(socket, SIGNAL(connected()), this, SLOT(connected()));
     connect(socket, SIGNAL(disconnected()), this, SLOT(disconnected()));
@@ -48,7 +48,7 @@ void ServiceTcpProcessor::readyRead()
     // Time consumer
     ServiceTcpProcessorTask *serviceTcpProcessorTask = new ServiceTcpProcessorTask();
     serviceTcpProcessorTask->setAutoDelete(true);
-    serviceTcpProcessorTask->setSocketData(socketData);
+    serviceTcpProcessorTask->setRequestData(socketData);
     connect(serviceTcpProcessorTask, SIGNAL(socketDataProcessed(QByteArray)), // ProcessorTask
             this, SLOT(socketDataProcessed(QByteArray)),            // Processor
             Qt::QueuedConnection);

@@ -9,7 +9,7 @@ CONFIG += sdk_no_version_check
 
 CONFIG(release, debug|release):DEFINES += QT_NO_DEBUG_OUTPUT
 
-DEFINES += THREAD_POOL_MAX=150
+#DEFINES += THREAD_POOL_MAX=150
 
 # You can make your code fail to compile if it uses deprecated APIs.
 # In order to do so, uncomment the following line.
@@ -18,6 +18,13 @@ DEFINES += THREAD_POOL_MAX=150
 CONFIG(release, debug|release):QMAKE_POST_LINK=$(STRIP) $(TARGET)
 
 SOURCES += \
+        DataEnvelope.cpp \
+        DataEnvelopeBody.cpp \
+        DataEnvelopeFault.cpp \
+        DataEnvelopeHeader.cpp \
+        DataRequestProcessor.cpp \
+        DataResponseProcessor.cpp \
+        DataTransmogrifier.cpp \
         ServiceTcp.cpp \
         ServiceTcpProcessor.cpp \
         ServiceTcpProcessorTask.cpp \
@@ -29,6 +36,13 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
+    DataEnvelope.h \
+    DataEnvelopeBody.h \
+    DataEnvelopeFault.h \
+    DataEnvelopeHeader.h \
+    DataRequestProcessor.h \
+    DataResponseProcessor.h \
+    DataTransmogrifier.h \
     ServiceTcp.h \
     ServiceTcpProcessor.h \
     ServiceTcpProcessorTask.h

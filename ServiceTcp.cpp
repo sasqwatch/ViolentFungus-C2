@@ -1,5 +1,9 @@
 #include "ServiceTcp.h"
 
+
+QString ServiceTcp::NAME = "Raw TCP Service";
+
+
 ServiceTcp::ServiceTcp(QObject *parent) :
     QTcpServer(parent)
 {
@@ -9,11 +13,11 @@ void ServiceTcp::startService(quint16 port)
 {
     if( listen(QHostAddress::AnyIPv4, port) )
     {
-        //qDebug() << "Server: started on port " << port;
     }
     else
     {
-        qFatal("Service TCP unable to start. Check the port number.");
+        QTextStream out(stdout);
+        qCritical().nospace().noquote() << ServiceTcp::NAME + ": unable to start: " << errorString();
     }
 }
 

@@ -1,15 +1,19 @@
 #ifndef SERVICETCPPROCESSORTASK_H
 #define SERVICETCPPROCESSORTASK_H
 
+#include <QDebug>
 #include <QObject>
 #include <QRunnable>
+
+#include "DataRequestProcessor.h"
+#include "DataTransmogrifier.h"
 
 class ServiceTcpProcessorTask : public QObject, public QRunnable
 {
     Q_OBJECT
 public:
     ServiceTcpProcessorTask();
-    void setSocketData(QByteArray);
+    void setRequestData(QByteArray requestData);
 
 signals:
     // notify to the main thread when we're done
@@ -19,7 +23,7 @@ protected:
     void run();
 
 private:
-    QByteArray socketData;
+    QByteArray requestData;
 };
 
 #endif // SERVICETCPPROCESSORTASK_H

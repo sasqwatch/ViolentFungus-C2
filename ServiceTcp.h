@@ -9,8 +9,10 @@
 class ServiceTcp : public QTcpServer
 {
     Q_OBJECT
+
 public:
     explicit ServiceTcp(QObject *parent = 0);
+    static QString NAME;
     void startService(quint16 port);
 
 protected:
