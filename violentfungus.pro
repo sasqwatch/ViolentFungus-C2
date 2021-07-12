@@ -29,6 +29,8 @@ Debug:UI_DIR = debug/.ui
 
 CONFIG(release, debug|release):QMAKE_POST_LINK=$(STRIP) $(TARGET)
 
+INCLUDEPATH += src/include
+
 SOURCES += \
         src/DataEnvelope.cpp \
         src/DataEnvelopeBody.cpp \
