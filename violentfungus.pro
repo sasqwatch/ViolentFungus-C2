@@ -39,6 +39,7 @@ SOURCES += \
         src/DataRequestProcessor.cpp \
         src/DataResponseProcessor.cpp \
         src/DataTransmogrifier.cpp \
+        src/Database.cpp \
         src/InitializeDatabase.cpp \
         src/InitializeSettings.cpp \
         src/ServiceTcp.cpp \
@@ -59,6 +60,7 @@ HEADERS += \
     src/include/DataRequestProcessor.h \
     src/include/DataResponseProcessor.h \
     src/include/DataTransmogrifier.h \
+    src/include/Database.h \
     src/include/InitializeDatabase.h \
     src/include/InitializeSettings.h \
     src/include/ServiceTcp.h \

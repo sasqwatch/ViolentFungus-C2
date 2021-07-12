@@ -13,6 +13,7 @@
 #include <QTextStream>
 #include <QSysInfo>
 
+#include "Database.h"
 #include "InitializeDatabase.h"
 #include "InitializeSettings.h"
 #include "ServiceTcp.h"
@@ -60,6 +61,11 @@ int main(int argc, char *argv[])
     QCoreApplication::setApplicationVersion("v0.1-development");
     QTextStream out(stdout);
     QSettings settings;
+    Database database;
+
+    // Connect to database
+    database.connectToDatabase();
+
 
     // Banner
     QString banner;
@@ -76,7 +82,13 @@ int main(int argc, char *argv[])
                                 << ") " << QSysInfo::buildAbi();
     // Configuration
     qInfo().nospace().noquote() << "Configuration file: " << settings.fileName();
+    // Database
+    qInfo().nospace().noquote() << "Database: " << database.getDb().driverName()
+                                << " for database " << database.getDb().databaseName();
+
     out << Qt::endl;
+
+
 
     // ///////////////////////////////////////////////////////////////////////////////////////////////
     // CLI argument provisioning
@@ -101,6 +113,7 @@ int main(int argc, char *argv[])
 
     parser.process(app);
     // ///////////////////////////////////////////////////////////////////////////////////////////////
+
 
 
     // ///////////////////////////////////////////////////////////////////////////////////////////////

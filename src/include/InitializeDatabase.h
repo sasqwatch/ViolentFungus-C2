@@ -3,6 +3,8 @@
 
 #include <QObject>
 
+#include "Database.h"
+
 class InitializeDatabase : public QObject
 {
     Q_OBJECT

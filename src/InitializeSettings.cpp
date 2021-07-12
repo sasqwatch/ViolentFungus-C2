@@ -13,8 +13,21 @@ void InitializeSettings::initialize()
     settings.setValue("system/thread_pool_max", "auto");
     settings.setValue("system/domain", "auto");
 
-    settings.setValue("database/type", "sqlite");
-    settings.setValue("database/sqlite_filename", "violentfungus.db");
+    settings.setValue("database/type", "sqlite"); // sqlite, postgresql, mysql, odbc
+
+    settings.setValue("database_sqlite/path", "auto");
+
+    settings.setValue("database_postgresql/name", "");
+    settings.setValue("database_postgresql/host", "");
+    settings.setValue("database_postgresql/user", "");
+    settings.setValue("database_postgresql/pass", "");
+
+    settings.setValue("database_mysql/name", "");
+    settings.setValue("database_mysql/host", "");
+    settings.setValue("database_mysql/user", "");
+    settings.setValue("database_mysql/pass", "");
+
+    settings.setValue("database_odbc/dsn", "");
 
     settings.setValue("service/tcp", false);
     settings.setValue("service/udp", false);
