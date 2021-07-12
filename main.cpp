@@ -68,7 +68,9 @@ int main(int argc, char *argv[])
         << "+-" << QString("-").repeated(banner.length()) << "-+" << Qt::endl;
 
     // System info
-    qInfo().nospace().noquote() << "System Info: " + QSysInfo::prettyProductName()  + " " << "(" + QSysInfo::kernelType() + " " + QSysInfo::kernelVersion() + ") " << QSysInfo::buildAbi();
+    qInfo().nospace().noquote() << "System Info: " << QSysInfo::prettyProductName()
+                                << " (" << QSysInfo::kernelType() << " " << QSysInfo::kernelVersion()
+                                << ") " << QSysInfo::buildAbi();
 
 
     // ///////////////////////////////////////////////////////////////////////////////////////////////
