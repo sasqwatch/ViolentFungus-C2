@@ -76,12 +76,11 @@ int main(int argc, char *argv[])
                                 << ") " << QSysInfo::buildAbi();
     // Configuration
     qInfo().nospace().noquote() << "Configuration file: " << settings.fileName();
-
+    out << Qt::endl;
 
     // ///////////////////////////////////////////////////////////////////////////////////////////////
     // CLI argument provisioning
     QCommandLineParser parser;
-    parser.setApplicationDescription(banner);
     parser.addHelpOption();
     parser.addVersionOption();
 
