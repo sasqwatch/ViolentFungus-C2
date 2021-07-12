@@ -13,6 +13,7 @@
 class ServiceTcpProcessor : public QObject
 {
     Q_OBJECT
+
 public:
     explicit ServiceTcpProcessor(QObject *parent = nullptr);
 

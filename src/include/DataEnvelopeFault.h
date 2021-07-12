@@ -11,6 +11,7 @@
 class DataEnvelopeFault : public QObject
 {
     Q_OBJECT
+
 public:
     explicit DataEnvelopeFault(QObject *parent = nullptr);
 

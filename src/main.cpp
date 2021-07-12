@@ -16,6 +16,7 @@
 #include "Database.h"
 #include "InitializeDatabase.h"
 #include "InitializeSettings.h"
+#include "Logger.h"
 #include "ServiceTcp.h"
 
 
@@ -62,9 +63,6 @@ int main(int argc, char *argv[])
     QTextStream out(stdout);
     QSettings settings;
     Database database;
-
-    // Connect to database
-    database.connectToDatabase();
 
 
     // Banner
@@ -173,7 +171,7 @@ int main(int argc, char *argv[])
 
     // Check if at least one service has started
     if (servicesStarted == false) {
-        qCritical().nospace().noquote() << "No services are started! You need to start a service for this software to be useful.";
+        qWarning().nospace().noquote() << "No services are started! You need to start a service for this software to be useful.";
     }
     // ///////////////////////////////////////////////////////////////////////////////////////////////
 

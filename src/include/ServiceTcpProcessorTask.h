@@ -11,6 +11,7 @@
 class ServiceTcpProcessorTask : public QObject, public QRunnable
 {
     Q_OBJECT
+
 public:
     ServiceTcpProcessorTask();
     void setRequestData(QByteArray requestData);
@@ -21,9 +22,10 @@ signals:
 
 protected:
     void run();
+    QByteArray requestData;
 
 private:
-    QByteArray requestData;
+
 };
 
 #endif // SERVICETCPPROCESSORTASK_H

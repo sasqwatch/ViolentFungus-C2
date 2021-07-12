@@ -6,6 +6,7 @@
 class DataTransmogrifier : public QObject
 {
     Q_OBJECT
+
 public:
     explicit DataTransmogrifier(QObject *parent = nullptr);
 

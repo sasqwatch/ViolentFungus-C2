@@ -8,6 +8,7 @@
 class InitializeSettings : public QObject
 {
     Q_OBJECT
+
 public:
     explicit InitializeSettings(QObject *parent = nullptr);
     void initialize();

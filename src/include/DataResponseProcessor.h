@@ -9,6 +9,7 @@
 class DataResponseProcessor : public QObject
 {
     Q_OBJECT
+
 public:
     explicit DataResponseProcessor(QObject *parent = nullptr);
 

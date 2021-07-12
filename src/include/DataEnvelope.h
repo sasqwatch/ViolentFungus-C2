@@ -12,6 +12,7 @@
 class DataEnvelope : public QObject
 {
     Q_OBJECT
+
 public:
     explicit DataEnvelope(QObject *parent = nullptr);
     void consumeRawData(QByteArray rawData);

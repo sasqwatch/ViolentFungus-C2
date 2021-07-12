@@ -2,7 +2,7 @@
 
 Database::Database(QObject *parent) : QObject(parent)
 {
-
+    this->connectToDatabase();
 }
 
 const QSqlDatabase Database::getDb()
@@ -14,6 +14,7 @@ void Database::setDb(QSqlDatabase newDb)
 {
     this->db = newDb;
 }
+
 
 /*
 Database Types
@@ -30,36 +31,26 @@ QTDS	Sybase Adaptive Server
 */
 bool Database::connectToDatabase()
 {
-    qDebug() << "Entered Database::connectToDatabase";
     bool status = false;
     QSqlDatabase newDb;
     QSettings settings;
 
     // Read values from settings
     QString databaseType = settings.value("database/type", "").toString().toLower();
-    qDebug() << "databaseType = " << databaseType;
-
     if (databaseType == "sqlite") {
-        qDebug() << "In SQLite section";
         QString defaultSqliteDatabasePath = QCoreApplication::applicationDirPath() + QDir::separator() + "violentfungus.db";
         QString sqliteName = settings.value("database_sqlite/path", defaultSqliteDatabasePath).toString();
         if (sqliteName == "auto") {
-            qDebug() << "database_sqlite/path is set to auto, using default path of " << defaultSqliteDatabasePath;
             sqliteName = defaultSqliteDatabasePath;
         }
         QString uniqueName = this->generateUniqueName(sqliteName);
-        qDebug() << "sqliteName = " << sqliteName;
-        qDebug() << "uniqueName = " << uniqueName;
-
         if(QSqlDatabase::contains(uniqueName)) {
             this->setDb(QSqlDatabase::database(uniqueName));
-            qDebug() << "Using existing connection";
         }
         else {
             newDb = QSqlDatabase::addDatabase( "QSQLITE", uniqueName);
             newDb.setDatabaseName(sqliteName);
             this->setDb(newDb);
-            qDebug() << "Using new connection";
         }
         status = this->db.open();
     }
@@ -149,10 +140,8 @@ bool Database::connectToDatabase()
         status = this->db.open();
     }
 
-
-    qDebug() << "status = " << status;
     if (status == false) {
-        qCritical() << "Unable to connect to database: "<< this->db.lastError();
+        qCritical().noquote().nospace() << this->db.lastError().driverText() << ": " << this->db.lastError().databaseText();
     }
     return status;
 }
@@ -163,6 +152,6 @@ QString Database::generateUniqueName(QString name)
         name = QCoreApplication::applicationName().toLower();
     }
     QString uniqueName;
-    uniqueName = name + "__" + QString::number((quint64)QThread::currentThread(), 16);
+    uniqueName = name + "/" + QString::number((quint64)QThread::currentThread(), 16);
     return uniqueName;
 }

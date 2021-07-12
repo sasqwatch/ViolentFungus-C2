@@ -11,14 +11,20 @@ void InitializeDatabase::initialize()
     Database database;
     qDebug() << "Created database object";
 
-    database.connectToDatabase();
-    qDebug() << "Connected to database";
-
 
     if (database.getDb().driverName() == "QSQLITE") {
+        qDebug() << "In SQLite provisioning...";
 
+        // Create tables by instantiating
+
+        Logger logger;
+        logger.log("Entered InitializeDatabase::initialize, probably provisioning the table for the first time", "InitializeDatabase::initialize", "InitializeDatabase::initialize");
+
+        // Store the request and response
+        DataRequestProcessor dataRequestProcessor;
+
+        qDebug() << "Done SQLite Provisioning";
     }
 
-    qDebug() << "connectOptions: " << database.getDb().connectOptions();
     qDebug() << "Leaving InitializeDatabase::initialize";
 }

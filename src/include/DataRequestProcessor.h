@@ -4,12 +4,14 @@
 #include <QObject>
 #include <QDebug>
 
+#include "Database.h"
 #include "DataEnvelope.h"
 #include "DataTransmogrifier.h"
 
 class DataRequestProcessor : public QObject
 {
     Q_OBJECT
+
 public:
     explicit DataRequestProcessor(QObject *parent = nullptr);
 
@@ -17,6 +19,8 @@ public:
     void setData(const QByteArray &newData);
 
     QByteArray processRequest(QByteArray);
+    void provisionDatabase();
+    void log(QByteArray request, QByteArray response);
 
 signals:
 

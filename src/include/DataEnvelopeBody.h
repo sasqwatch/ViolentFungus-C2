@@ -11,6 +11,7 @@
 class DataEnvelopeBody : public QObject
 {
     Q_OBJECT
+
 public:
     explicit DataEnvelopeBody(QObject *parent = nullptr);
 

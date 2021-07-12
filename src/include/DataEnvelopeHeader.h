@@ -10,6 +10,7 @@
 class DataEnvelopeHeader : public QObject
 {
     Q_OBJECT
+
 public:
     explicit DataEnvelopeHeader(QObject *parent = nullptr);
 

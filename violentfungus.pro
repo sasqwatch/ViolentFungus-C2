@@ -42,6 +42,7 @@ SOURCES += \
         src/Database.cpp \
         src/InitializeDatabase.cpp \
         src/InitializeSettings.cpp \
+        src/Logger.cpp \
         src/ServiceTcp.cpp \
         src/ServiceTcpProcessor.cpp \
         src/ServiceTcpProcessorTask.cpp \
@@ -63,6 +64,7 @@ HEADERS += \
     src/include/Database.h \
     src/include/InitializeDatabase.h \
     src/include/InitializeSettings.h \
+    src/include/Logger.h \
     src/include/ServiceTcp.h \
     src/include/ServiceTcpProcessor.h \
     src/include/ServiceTcpProcessorTask.h
