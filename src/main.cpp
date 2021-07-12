@@ -13,8 +13,10 @@
 #include <QTextStream>
 #include <QSysInfo>
 
-
+#include "InitializeDatabase.h"
+#include "InitializeSettings.h"
 #include "ServiceTcp.h"
+
 
 #ifndef THREAD_POOL_MAX
 #define THREAD_POOL_MAX  QThread::idealThreadCount()
@@ -57,6 +59,7 @@ int main(int argc, char *argv[])
     QCoreApplication::setApplicationName("ViolentFungus");
     QCoreApplication::setApplicationVersion("v0.1-development");
     QTextStream out(stdout);
+    QSettings settings;
 
     // Banner
     QString banner;
@@ -71,6 +74,8 @@ int main(int argc, char *argv[])
     qInfo().nospace().noquote() << "System Info: " << QSysInfo::prettyProductName()
                                 << " (" << QSysInfo::kernelType() << " " << QSysInfo::kernelVersion()
                                 << ") " << QSysInfo::buildAbi();
+    // Configuration
+    qInfo().nospace().noquote() << "Configuration file: " << settings.fileName();
 
 
     // ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -80,13 +85,13 @@ int main(int argc, char *argv[])
     parser.addHelpOption();
     parser.addVersionOption();
 
-    // Configuration file
-    QString settingsFilePath = QCoreApplication::applicationDirPath() + QDir::separator() + "violentfungus.ini";
-    QString settingsFilePathDescription = "Configuration file path. Default: " + settingsFilePath;
-    QCommandLineOption configurationFilePath("configuration-file-path",
-                                             QCoreApplication::translate("main", settingsFilePathDescription.toLocal8Bit().data()),
-                                             QCoreApplication::translate("main", "file path"));
-    parser.addOption(configurationFilePath);
+    // Initialize/first time stuff
+    QCommandLineOption initializeOption("initialize", QCoreApplication::translate("main", "Initialize the settings data and database (equivalent of --initialize-settings and --initialize-database)."));
+    QCommandLineOption initializeSettingsOption("initialize-settings", QCoreApplication::translate("main", "Initialize the settings data."));
+    QCommandLineOption initializeDatabaseOption("initialize-database", QCoreApplication::translate("main", "Initialize the database."));
+    parser.addOption(initializeOption);
+    parser.addOption(initializeSettingsOption);
+    parser.addOption(initializeDatabaseOption);
 
     // TCP Service
     QCommandLineOption serviceTcpOption("service-tcp", QCoreApplication::translate("main", "Enable raw TCP service."));
@@ -95,27 +100,33 @@ int main(int argc, char *argv[])
     parser.addOption(serviceTcpOption);
     parser.addOption(serviceTcpPortOption);
 
-
-
-
     parser.process(app);
     // ///////////////////////////////////////////////////////////////////////////////////////////////
 
 
     // ///////////////////////////////////////////////////////////////////////////////////////////////
-    // Parse configuration file
-    if (parser.isSet(configurationFilePath)) {
-        QFileInfo check_file(parser.value(configurationFilePath));
-        if (!check_file.exists() || !check_file.isFile()) {
-            qCritical().nospace().noquote() << "Invalid settings file path: " << parser.value(configurationFilePath);
+    // Initialize stuff
+    if (parser.isSet(initializeOption) || (parser.isSet(initializeSettingsOption) || parser.isSet(initializeDatabaseOption))) {
+        if (parser.isSet(initializeOption) || parser.isSet(initializeSettingsOption))  {
+            qInfo().nospace().noquote() << "Initializing settings...";
+            InitializeSettings initializeSettings;
+            initializeSettings.initialize();
+            qInfo().nospace().noquote() << "Initialized settings";
+
         }
-        settingsFilePath = parser.value(configurationFilePath);
+        if (parser.isSet(initializeOption) || parser.isSet(initializeDatabaseOption))  {
+            qInfo().nospace().noquote() << "Initializing database...";
+            InitializeDatabase initializeDatabase;
+            initializeDatabase.initialize();
+            qInfo().nospace().noquote() << "Initialized database...";
+
+        }
+
+        qInfo().nospace().noquote() << "Initialization complete. Restart server without initialize flags. Exiting...";
+        exit(EXIT_SUCCESS);
     }
-
-    qInfo().nospace().noquote() << "Configuration file: " << settingsFilePath;
-    QSettings settings(settingsFilePath, QSettings::IniFormat);
-
     // ///////////////////////////////////////////////////////////////////////////////////////////////
+
 
 
     // ///////////////////////////////////////////////////////////////////////////////////////////////
