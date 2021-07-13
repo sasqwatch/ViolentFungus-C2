@@ -19,7 +19,6 @@ public:
     void setData(const QByteArray &newData);
 
     QByteArray processRequest(QByteArray);
-    void provisionDatabase();
     void log(QByteArray request, QByteArray response);
 
 signals:

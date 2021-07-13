@@ -14,7 +14,6 @@
 #include <QSysInfo>
 
 #include "Database.h"
-#include "InitializeDatabase.h"
 #include "InitializeSettings.h"
 #include "Logger.h"
 #include "ServiceTcp.h"
@@ -63,6 +62,7 @@ int main(int argc, char *argv[])
     QTextStream out(stdout);
     QSettings settings;
     Database database;
+    Logger logger;
 
 
     // Banner
@@ -97,10 +97,8 @@ int main(int argc, char *argv[])
     // Initialize/first time stuff
     QCommandLineOption initializeOption("initialize", QCoreApplication::translate("main", "Initialize the settings data and database (equivalent of --initialize-settings and --initialize-database)."));
     QCommandLineOption initializeSettingsOption("initialize-settings", QCoreApplication::translate("main", "Initialize the settings data."));
-    QCommandLineOption initializeDatabaseOption("initialize-database", QCoreApplication::translate("main", "Initialize the database."));
     parser.addOption(initializeOption);
     parser.addOption(initializeSettingsOption);
-    parser.addOption(initializeDatabaseOption);
 
     // TCP Service
     QCommandLineOption serviceTcpOption("service-tcp", QCoreApplication::translate("main", "Enable raw TCP service."));
@@ -116,21 +114,11 @@ int main(int argc, char *argv[])
 
     // ///////////////////////////////////////////////////////////////////////////////////////////////
     // Initialize stuff
-    if (parser.isSet(initializeOption) || (parser.isSet(initializeSettingsOption) || parser.isSet(initializeDatabaseOption))) {
-        if (parser.isSet(initializeOption) || parser.isSet(initializeSettingsOption))  {
-            qInfo().nospace().noquote() << "Initializing settings...";
-            InitializeSettings initializeSettings;
-            initializeSettings.initialize();
-            qInfo().nospace().noquote() << "Initialized settings";
-
-        }
-        if (parser.isSet(initializeOption) || parser.isSet(initializeDatabaseOption))  {
-            qInfo().nospace().noquote() << "Initializing database...";
-            InitializeDatabase initializeDatabase;
-            initializeDatabase.initialize();
-            qInfo().nospace().noquote() << "Initialized database...";
-
-        }
+    if (parser.isSet(initializeOption) || parser.isSet(initializeSettingsOption)) {
+        qInfo().nospace().noquote() << "Initializing settings...";
+        InitializeSettings initializeSettings;
+        initializeSettings.initialize();
+        qInfo().nospace().noquote() << "Initialized settings";
 
         qInfo().nospace().noquote() << "Initialization complete. Restart server without initialize flags. Exiting...";
         exit(EXIT_SUCCESS);

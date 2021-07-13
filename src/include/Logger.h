@@ -13,7 +13,6 @@ class Logger : public QObject
 public:
     explicit Logger(QObject *parent = nullptr);
     void log(QString message, QString scope, QString subject);
-    void provisionDatabase();
 
 signals:
 

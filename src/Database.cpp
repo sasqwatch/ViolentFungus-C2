@@ -127,17 +127,18 @@ bool Database::connectToDatabase()
         status = this->db.open();
     }
     else {
-        // No database configured, use in-memory database
-        qDebug() << "No database defined, using SQLite in-memory database instead.";
-        QString uniqueName = this->generateUniqueName("");
-        if(QSqlDatabase::contains(uniqueName))
-            this->setDb(QSqlDatabase::database(uniqueName));
-        else {
-            newDb = QSqlDatabase::addDatabase( "QSQLITE", uniqueName);
-            newDb.setDatabaseName(":memory:");
-            this->setDb(newDb);
-        }
-        status = this->db.open();
+//        // No database configured, use in-memory database
+//        qDebug() << "No database defined, using SQLite in-memory database instead.";
+//        QString uniqueName = this->generateUniqueName("");
+//        if(QSqlDatabase::contains(uniqueName))
+//            this->setDb(QSqlDatabase::database(uniqueName));
+//        else {
+//            newDb = QSqlDatabase::addDatabase( "QSQLITE", uniqueName);
+//            newDb.setDatabaseName(":memory:");
+//            this->setDb(newDb);
+//        }
+//        status = this->db.open();
+        qCritical().noquote().nospace() << "No database configured. Please configure a database.";
     }
 
     if (status == false) {
