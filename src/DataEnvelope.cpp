@@ -6,48 +6,25 @@ DataEnvelope::DataEnvelope(QObject *parent) : QObject(parent)
     qDebug() << "Leaving DataEnvelope::DataEnvelope";
 }
 
-void DataEnvelope::consumeRawData(QByteArray rawData)
+void DataEnvelope::consumeRawData(QByteArray data)
 {
     qDebug() << "Entered DataEnvelope::consumeRawData";
-    qDebug() << "rawData = " << rawData;
-    this->setRawData(rawData);
+    qDebug() << "rawData = " << data;
+    this->setData(data);
     qDebug() << "Leaving DataEnvelope::consumeRawData";
 
 }
 
-QByteArray DataEnvelope::toBytes()
-{
-    qDebug() << "Entered DataEnvelope::toBytes";
-    qDebug() << "Leaving DataEnvelope::toBytes";
-
-    return this->rawData;
-
-
-    QByteArray data;
-    return data;
-}
-
-QString DataEnvelope::toString()
-{
-    qDebug() << "Entered DataEnvelope::toString";
-    qDebug() << "Leaving DataEnvelope::toString";
-    return QString::fromUtf8(this->rawData);
-
-
-    QString data;
-    return data;
-}
-
-const QByteArray &DataEnvelope::getRawData() const
+QByteArray DataEnvelope::getData()
 {
     qDebug() << "Entered DataEnvelope::getRawData";
     qDebug() << "Leaving DataEnvelope::getRawData";
-    return this->rawData;
+    return this->data;
 }
 
-void DataEnvelope::setRawData(const QByteArray &newRawData)
+void DataEnvelope::setData(QByteArray newData)
 {
     qDebug() << "Entered DataEnvelope::setRawData";
     qDebug() << "Leaving DataEnvelope::setRawData";
-    this->rawData = newRawData;
+    this->data = newData;
 }

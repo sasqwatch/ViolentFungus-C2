@@ -34,6 +34,7 @@ INCLUDEPATH += src/include
 SOURCES += \
         src/DataEnvelope.cpp \
         src/DataEnvelopeBody.cpp \
+        src/DataEnvelopeChunker.cpp \
         src/DataEnvelopeFault.cpp \
         src/DataEnvelopeHeader.cpp \
         src/DataRequestProcessor.cpp \
@@ -55,6 +56,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 HEADERS += \
     src/include/DataEnvelope.h \
     src/include/DataEnvelopeBody.h \
+    src/include/DataEnvelopeChunker.h \
     src/include/DataEnvelopeFault.h \
     src/include/DataEnvelopeHeader.h \
     src/include/DataRequestProcessor.h \

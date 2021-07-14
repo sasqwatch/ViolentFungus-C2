@@ -62,7 +62,7 @@ QByteArray DataRequestProcessor::processRequest(QByteArray requestData)
     dataEnvelope.consumeRawData(responseDataDecoded);
 
     qDebug() << "Calling dataEnvelopeBytes = dataEnvelope.toBytes()";
-    dataEnvelopeBytes = dataEnvelope.toBytes();
+    dataEnvelopeBytes = dataEnvelope.getData();
 
     qDebug() << "Calling responseData = dataTransmogrifier.encode(dataEnvelopeBytes)";
     responseData = dataTransmogrifier.encode(dataEnvelopeBytes);
