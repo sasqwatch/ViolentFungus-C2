@@ -42,20 +42,52 @@ CREATE TABLE request_response (
     update_ts datetime
 );
 
-drop table if exists "data_envelope";
-create table "data_envelope" (
+drop table if exists "envelope";
+create table "envelope" (
     id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    uuid varchar unique,
     data_bytes blob,
     create_ts datetime DEFAULT current_timestamp
 );
 
-drop table if exists data_envelope_chunk;
-create table data_envelope_chunk (
+drop table if exists "envelope_headers";
+create table "envelope_headers" (
     id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-    data_id integer,
+    envelope_uuid text, -- envelope.uuid
+    header_key text,
+    header_value text,
+    create_ts datetime DEFAULT current_timestamp
+);
+
+drop table if exists "envelope_body";
+create table "envelope_body" (
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    uuid text,
+    envelope_uuid text, -- envelope.uuid
+    data_bytes blob,
+    create_ts datetime DEFAULT current_timestamp
+);
+
+drop table if exists "envelope_fault";
+create table "envelope_fault" (
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    uuid text,
+    envelope_uuid text, -- envelope.uuid
+    envelope_body_uuid text, -- envelope_body.uuid
+    data_bytes blob,
+    create_ts datetime DEFAULT current_timestamp
+);
+
+
+
+drop table if exists envelope_chunk;
+create table envelope_chunk (
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    id integer,
     start_byte_position integer,
     chunk_size integer,
     is_tranferred boolean,
+    is_acknowledged_required boolean, 
     is_acknowledged boolean,
     create_ts datetime DEFAULT current_timestamp
     transferred_ts datetime,
@@ -68,7 +100,7 @@ drop table if exists "queue";
 create table "queue" (
    	id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     "session_id" integer,
-    data_bytes blob
+    data_bytes blob,
     create_ts datetime DEFAULT current_timestamp,
     update_ts datetime
 );

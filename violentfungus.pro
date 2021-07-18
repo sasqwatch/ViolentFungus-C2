@@ -32,6 +32,8 @@ CONFIG(release, debug|release):QMAKE_POST_LINK=$(STRIP) $(TARGET)
 INCLUDEPATH += src/include
 
 SOURCES += \
+        src/Command.cpp \
+        src/CommandParser.cpp \
         src/DataEnvelope.cpp \
         src/DataEnvelopeBody.cpp \
         src/DataEnvelopeChunker.cpp \
@@ -54,6 +56,8 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
+    src/include/Command.h \
+    src/include/CommandParser.h \
     src/include/DataEnvelope.h \
     src/include/DataEnvelopeBody.h \
     src/include/DataEnvelopeChunker.h \
