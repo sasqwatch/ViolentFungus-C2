@@ -1,8 +1,10 @@
-# ViolentFungus-C2
+# Violent Fungus C2
 
 Still working on this. It is nowhere near a complete functional program.
 
 This project is written in C++ with Qt 5. 
+
+Website for this project is at https://sog.re/violentfungus-c2-project/ or https://violentfungus.com (same location)
 
 ## Core Goals
 * Small binary size.
