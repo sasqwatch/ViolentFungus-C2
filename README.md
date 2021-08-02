@@ -1,10 +1,10 @@
 # Violent Fungus C2
 
-Still working on this. It is nowhere near a complete functional program.
+I’m building a command and control (C2) program suite to learn C2 software design and implementation at a fine-grained level (using MITRE ATT&CK C2 Techniques https://attack.mitre.org/tactics/TA0011/ and existing C2 software as reference).
 
-This project is written in C++ with Qt 5. 
+Additionally, I want to get proficient coding Qt C++ targeting multiple platforms. I’m aiming for a 1.0 release in 2022.
 
-Website for this project is at https://sog.re/violentfungus-c2-project/ or https://violentfungus.com (same location)
+Website for this project is at https://sog.re/violentfungus-c2-project/.
 
 ## Core Goals
 * Small binary size.
