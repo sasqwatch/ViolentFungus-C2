@@ -4,7 +4,7 @@ I’m building a command and control (C2) program suite to learn C2 software des
 
 Additionally, I want to get proficient coding Qt C++ targeting multiple platforms. I’m aiming for a 1.0 release in 2022.
 
-Website for this project is at https://sog.re/violentfungus-c2-project/.
+Website for this project is at https://sogonsecurity.com/violentfungus-c2-project/.
 
 ## Core Goals
 * Small binary size.
